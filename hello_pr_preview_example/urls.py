@@ -15,12 +15,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.auth.models import Group
 from django.http import HttpResponse
 from django.urls import path
 
 
 def hello_view(request):
-    return HttpResponse("Hello Fly!")
+    group_count = Group.objects.count()
+    return HttpResponse(f"🎈Hello Fly!🎈 (we have {group_count} groups)")
 
 
 urlpatterns = [
