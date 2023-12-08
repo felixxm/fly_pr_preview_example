@@ -2,7 +2,7 @@ name: Start preview app
 
 on:
   pull_request:
-    types: [labeled, synchronize, opened, reopened, close]
+    types: [labeled, synchronize, opened, reopened, closed]
 
 concurrency:
   group: ${{ github.workflow }}-pr-${{ github.event.number }}
@@ -10,6 +10,7 @@ concurrency:
 
 permissions:
   contents: read
+  deployments: write
 
 env:
   FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
@@ -22,11 +23,18 @@ jobs:
     runs-on: ubuntu-latest
     name: Preview app
     environment:
-      name: pr-${{github.event.number }}
+      name: pr-${{ github.event.number }}
       url: ${{ steps.deploy.outputs.url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Deploy preview app
         uses: superfly/fly-pr-review-apps@d385b9a31ebe9ad00a6871846d9c3f4154b51f83
+        if: ${{ github.event.action != 'closed' }}
         id: deploy
+      - name: Clean up GitHub environment
+        uses: strumwolf/delete-deployment-environment@v2
+        if: ${{ github.event.action == 'closed' }}
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          environment: pr-${{ github.event.number }}
