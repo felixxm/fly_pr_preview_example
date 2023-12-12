@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.http import HttpResponse
 from django.urls import path
 
+
 def hello_view(request):
     return HttpResponse("Hello Fly!")
 
