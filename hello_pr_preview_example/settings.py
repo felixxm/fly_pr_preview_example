@@ -30,11 +30,13 @@ SECRET_KEY = env.str(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-sentry_sdk.init(
-    dsn=env.str("SENTRY_DSN"),
-    traces_sample_rate=1.0,
-    profiles_sample_rate=1.0,
-)
+sentry_dsn = env.str("SENTRY_DSN", None)
+if sentry_dsn:
+    sentry_sdk.init(
+        dsn=env.str("SENTRY_DSN"),
+        traces_sample_rate=1.0,
+        profiles_sample_rate=1.0,
+    )
 
 APP_NAME = env.str("FLY_APP_NAME", "fly-pr-preview-example")
 
