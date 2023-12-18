@@ -16,6 +16,9 @@ RUN set -ex && \
     rm -rf /root/.cache/
 COPY . /code
 
+RUN set -ex && \
+    yes yes | python /code/manage.py collectstatic
+
 EXPOSE 8000
 
 CMD ["gunicorn", "--bind", ":8000", "--workers", "2", "hello_pr_preview_example.wsgi"]

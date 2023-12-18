@@ -91,7 +91,11 @@ WSGI_APPLICATION = "hello_pr_preview_example.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    "default": env.db("DATABASE_URL"),
+    "default": env.db(
+        "DATABASE_URL",
+        # Stub database URL required for the building stage.
+        default="postgres://stub_user@localhost:5432/stub_db",
+    ),
 }
 
 
