@@ -28,7 +28,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Deploy preview app
-        uses: superfly/fly-pr-review-apps@1.2.0
+        uses: superfly/fly-pr-review-apps@5774c2184872e27060e66882258f2e4222a47e53
         id: deploy
         with:
           postgres: pg-fly-pr-staging-preview
