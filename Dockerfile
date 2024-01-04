@@ -17,7 +17,7 @@ RUN set -ex && \
 COPY . /code
 
 RUN set -ex && \
-    yes yes | python /code/manage.py collectstatic
+    python /code/manage.py collectstatic --noinput
 
 EXPOSE 8000
 
